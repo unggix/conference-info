@@ -1,21 +1,21 @@
-
-name: Monthly Conference Update
-
+name: Check conference CFPs monthly
 on:
   schedule:
-    - cron: '0 9 1 * *'
-      timezone: 'Asia/Seoul'
+    - cron: '0 0 1 * *' # 09:00 KST (UTC 00:00)
   workflow_dispatch:
-
 permissions:
   contents: read
-
+  issues: write
 jobs:
-  update:
+  check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Check monthly schedule
-        run: echo "Conference update scheduled successfully"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check official CFP pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: python scripts/check_cfps.py
