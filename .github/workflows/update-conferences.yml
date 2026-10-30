@@ -1,0 +1,21 @@
+
+name: Monthly Conference Update
+
+on:
+  schedule:
+    - cron: '0 9 1 * *'
+      timezone: 'Asia/Seoul'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check monthly schedule
+        run: echo "Conference update scheduled successfully"
